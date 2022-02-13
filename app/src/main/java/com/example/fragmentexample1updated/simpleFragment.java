@@ -1,7 +1,9 @@
 package com.example.fragmentexample1updated;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,6 +23,10 @@ public class simpleFragment extends Fragment {
 
     private static final int YES = 0;
     private static final int NO = 1;
+    private static int NONE = 2;
+
+    private int mCurrentChoice = NONE;
+    private OnFragmentInteractionListener mListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +41,23 @@ public class simpleFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private static final String CHOICE_PARAM = "choice-param";
+
+    interface OnFragmentInteractionListener {
+        void onRadioButtonChoiceChecked(int choice);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if(context instanceof  OnFragmentInteractionListener){
+            mListener = (OnFragmentInteractionListener) context;
+        }
+        else{
+            throw new ClassCastException(getResources().getString(R.string.exception_message));
+        }
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -55,6 +78,15 @@ public class simpleFragment extends Fragment {
 
     public static simpleFragment newInstance(){
         simpleFragment fragment = new simpleFragment();
+
+        return fragment;
+    }
+
+    public static simpleFragment newInstance(int choice){
+        simpleFragment fragment = new simpleFragment();
+        Bundle args = new Bundle();
+        args.putInt(CHOICE_PARAM, choice);
+        fragment.setArguments(args);
 
         return fragment;
     }

@@ -1,5 +1,6 @@
 package com.example.fragmentexample1updated;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -7,11 +8,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements simpleFragment.OnFragmentInteractionListener {
 
     private Button openButton;
     private Boolean isFragmentDisplayed = false;
+
+    private final String FRAGMENT_STATE = "fragment-state";
+    private int mCurrentChoice = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        if(savedInstanceState != null){
+            isFragmentDisplayed = savedInstanceState.getBoolean(FRAGMENT_STATE);
+            if(isFragmentDisplayed){
+                openButton.setText(R.string.close);
+            }
+        }
     }
 
     private void openFragment(){
@@ -51,5 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
         isFragmentDisplayed = false;
         openButton.setText(R.string.open);
+    }
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(FRAGMENT_STATE, isFragmentDisplayed);
+    }
+
+    @Override
+    public void onRadioButtonChoiceChecked(int choice) {
+        mCurrentChoice = choice;
+        Toast.makeText(this, "choice is " + String.valueOf(choice), Toast.LENGTH_SHORT).show();
     }
 }
