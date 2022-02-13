@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -17,8 +19,8 @@ import android.widget.TextView;
  */
 public class simpleFragment extends Fragment {
 
-    private static final int yes = 0;
-    private static final int no = 1;
+    private static final int YES = 0;
+    private static final int NO = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +53,12 @@ public class simpleFragment extends Fragment {
         return fragment;
     }
 
+    public static simpleFragment newInstance(){
+        simpleFragment fragment = new simpleFragment();
+
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,7 @@ public class simpleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_simple, container, false);
         RadioGroup radioGroup = view.findViewById(R.id.radio_group);
         TextView articleQuestionTextView = view.findViewById(R.id.question_textview);
@@ -70,14 +79,14 @@ public class simpleFragment extends Fragment {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioGroup btn = radioGroup.findViewById(i);
+                RadioButton btn = radioGroup.findViewById(i);
                 int selectedIndex = radioGroup.indexOfChild(btn);
 
                 switch (selectedIndex){
-                    case yes:
+                    case YES:
                         articleQuestionTextView.setText(R.string.yes_message);
                         break;
-                    case no:
+                    case NO:
                         articleQuestionTextView.setText(R.string.no_message);
                         break;
                     default:
